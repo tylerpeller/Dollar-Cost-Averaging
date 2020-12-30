@@ -90,3 +90,16 @@ cont = input("Are you sure you want to proceed? [y/n]")
 
 if(cont=='n'):
     driver.quit()
+boxes = driver.find_elements_by_xpath('//div/div/div[2]//app-messages/div/div[2]/div/input')
+
+for i in boxes:
+    driver.execute_script("arguments[0].click();", i)
+
+
+cont2 = input("Place Order?? [y/n]")
+if (cont2=='y'):
+    driver.find_elements_by_link_text("Place Order(s)").click()
+    print("Purchase went through")
+print("Exiting...")
+t.sleep(3.0)
+driver.quit()

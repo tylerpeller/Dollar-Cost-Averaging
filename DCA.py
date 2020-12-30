@@ -4,9 +4,12 @@ from selenium.webdriver.common.action_chains import ActionChains
 import time as t
 import csv
 
-#some not actual TICKER symbols
+#TICKER symbols (ATT edited for error)
 Current_Holdings=["JPM","NVDA","DIS","AT&","MSFT","PEP","JNJ"]
-amount =input("How much would you like to dollar cost average this month?")
+print("There are currently {} holdings you've chosen to invest in.\nYou must invest at least $5 per stock".format(len(Current_Holdings)))
+amount=0
+while(amount<len(Current_Holdings)*5):
+    amount =int(input("How much would you like to dollar cost average this month?"))
 
 #retrieve login info from file
 with open("c:/Users/tyler/'path to login text file' ,"r") as login:
@@ -32,7 +35,7 @@ t.sleep(2.0)
 username.send_keys(user)
 t.sleep(3.0)
 
-##For some reason after inputting user it automatically submits (without login.click()) ???
+##For some reason after inputting user it automatically submits (without login.click()) ?
 
 ## Dollar cost averaging - select from list of holdings to average into
 
@@ -78,8 +81,12 @@ driver.find_element_by_id("investAmt").send_keys(amount)
 
 driver.find_element_by_class_name('account-selector-button').click()
 t.sleep(1.2)
-driver.find_element_by_link_text('Individual').click()
-t.sleep(1.35)
-driver.find_element_by_xpath('//button[text()="Review Your Selection"]').click()
-t.sleep(10.0)
-driver.quit()
+
+driver.find_element_by_xpath('//sch-accountselector/div/div/div/div[2]/ul[1]/li/a').click()
+
+button = driver.find_element_by_xpath('//div/form/div/div/div[3]/div[4]/div/button')
+driver.execute_script("arguments[0].click();", button)
+cont = input("Are you sure you want to proceed? [y/n]")
+
+if(cont=='n'):
+    driver.quit()
